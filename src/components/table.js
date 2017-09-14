@@ -36,11 +36,11 @@ class Table extends React.Component {
   }
 
   // when cancel event  rollback  profile data.
-  onClickCancelEdit(rowIndex){
+  onClickCancelEdit(idx ,  rowIndex){
     if(this.profileArray.length < 1) {
       this.profileArray =  this.props.profileData;
     }
-     this.profileArray[rowIndex] =   this.props.profileData[rowIndex];
+     this.profileArray[idx] =   this.props.profileData[idx];
      this.props.handleCancel(rowIndex);
 
   }
@@ -58,16 +58,20 @@ class Table extends React.Component {
    
 }
 
-  renderTBody(profile , rowIndex) {
+  renderTBody(profile , idx) {
+
+    if(profile == null) 
+        return null;
+
     return (
-      <tr key={rowIndex} >
+      <tr key={idx} >
        { profile.isEditAble ? 
         <td>
           <FormControl
             type="text"
             name="name"
             defaultValue={profile.name}
-            onChange={ (event) => this.setProfile( event, profile , rowIndex)}
+            onChange={ (event) => this.setProfile( event, profile , idx)}
           
           />
         </td>
@@ -80,7 +84,7 @@ class Table extends React.Component {
           <FormControl componentClass="select"
             defaultValue={profile.age}
             name="age"
-            onChange={ (event) => this.setProfile( event, profile , rowIndex)}
+            onChange={ (event) => this.setProfile( event, profile , idx)}
             >
 
             <option value="select">select</option>
@@ -98,7 +102,7 @@ class Table extends React.Component {
           <FormControl
             type="text"
             defaultValue={profile.nickName}
-            onChange={ (event) => this.setProfile( event, profile , rowIndex)}
+            onChange={ (event) => this.setProfile( event, profile , idx)}
             name="nickName"
      
           />
@@ -111,15 +115,15 @@ class Table extends React.Component {
         <td>
           <ButtonToolbar>
           { !profile.isEditAble ? 
-            <Button onClick={ () => this.props.handleEditAble(rowIndex)}  bsStyle="primary">Edit</Button>
+            <Button onClick={ () => this.props.handleEditAble(profile.rowIndex)}  bsStyle="primary">Edit</Button>
             :
-            <Button onClick={ () => this.props.handleUpdate(this.profileArray[rowIndex] , rowIndex)}  bsStyle="info">Update</Button>
+            <Button onClick={ () => this.props.handleUpdate(this.profileArray[idx] , profile.rowIndex)}  bsStyle="info">Update</Button>
 
           }
           { !profile.isEditAble ? 
-            <Button onClick={ () => this.props.handleDelete(rowIndex)}    bsStyle="danger">Delete</Button>
+            <Button onClick={ () => this.props.handleDelete(profile.rowIndex)}    bsStyle="danger">Delete</Button>
             :
-            <Button onClick={ () => this.onClickCancelEdit(rowIndex)}    bsStyle="warning">Cancel</Button>
+            <Button onClick={ () => this.onClickCancelEdit(idx , profile.rowIndex)}    bsStyle="warning">Cancel</Button>
           }
           </ButtonToolbar>
 
@@ -143,7 +147,7 @@ class Table extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.profileData.map( (profile ,rowIndex) => this.renderTBody(profile , rowIndex))}
+          {this.props.profileData.map( (profile ,rowIndex) =>   this.renderTBody(profile , rowIndex))}
         </tbody>
       </TableCom>
     )

@@ -27,7 +27,6 @@ export const cancelEdit = function (rowIndex) {
 
 
 export const updateData = function (formData, rowIndex) {
-    debugger;
     return {
         type: "UPDATE_DATA",
         name: formData.name,
