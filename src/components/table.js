@@ -15,42 +15,66 @@ import { setEditAble ,
 
 class Table extends React.Component {
 
-   profileArray = [];
+   profileArray = [];  //  temp data for edit each row before send to redux state.
   
   constructor(props) {
     super(props);
     this.setProfile = this.setProfile.bind(this);
     this.onClickCancelEdit = this.onClickCancelEdit.bind(this);
+    this.onClickDelete  = this.onClickDelete.bind(this);
   }
 
+  componentWillReceiveProps(nextProps){
+    //  when add  new row keep temp data  length equal with new state.
+    for(let i = 0 ; i <= nextProps.profileData.length - 1 ; i++){
+          if(this.profileArray[i] == undefined ){
+            this.profileArray[i] =  {};
+             this.profileArray[i] = nextProps.profileData[i];
+          }
+    }
 
-  //  when edit  profile  copy profile to temp before  update or cancel.
-  setProfile( event , profile , rowIndex){
+  }
+
+  //  when edit  profile  copy profile to temp data before  update or cancel.
+  setProfile( event , profile , idx){
 
     if(this.profileArray.length < 1) {
       this.profileArray =  this.props.profileData;
     }
-    this.profileArray[rowIndex][event.target.name] = event.target.value;
+
+    if(this.profileArray[idx] == undefined) this.profileArray[idx] = {};
+
+ 
+    this.profileArray[idx][event.target.name] = event.target.value;
  
 
   }
 
   // when cancel event  rollback  profile data.
-  onClickCancelEdit(idx ,  rowIndex){
+  onClickCancelEdit(idx ,  id){
     if(this.profileArray.length < 1) {
       this.profileArray =  this.props.profileData;
     }
+
+    if(this.profileArray[idx] == undefined) this.profileArray[idx] = {};
+
      this.profileArray[idx] =   this.props.profileData[idx];
-     this.props.handleCancel(rowIndex);
+     this.props.handleCancel(id);
 
   }
 
+
+
+  onClickDelete(idx ,id){
+    this.profileArray.splice(idx, 1); 
+    this.props.handleDelete(id);
+  }
    
   renderOptionList(selectedValue){
     let optionList = [];
     for(let i=1 ; i <=99 ; i++){
       if( i ==  selectedValue )
-       optionList.push(<option  selected={selectedValue} key={i}  value={i}>{i}</option>);
+       optionList.push(<option defaultValue={selectedValue} key={i}  value={i}>{i}</option>);
       else
         optionList.push(<option key={i}  value={i}>{i}</option>);
     }
@@ -60,11 +84,9 @@ class Table extends React.Component {
 
   renderTBody(profile , idx) {
 
-    // if(profile == null) 
-    //     return null;
-
     return (
-      <tr key={idx} >
+      <tr key={profile.id} >
+
        { profile.isEditAble ? 
         <td>
           <FormControl
@@ -115,15 +137,15 @@ class Table extends React.Component {
         <td>
           <ButtonToolbar>
           { !profile.isEditAble ? 
-            <Button onClick={ () => this.props.handleEditAble(profile.rowIndex)}  bsStyle="primary">Edit</Button>
+            <Button onClick={ () => this.props.handleEditAble(profile.id)}  bsStyle="primary">Edit</Button>
             :
-            <Button onClick={ () => this.props.handleUpdate(this.profileArray[idx] , profile.rowIndex)}  bsStyle="info">Update</Button>
+            <Button onClick={ () => this.props.handleUpdate(this.profileArray[idx] , profile.id)}  bsStyle="info">Update</Button>
 
           }
           { !profile.isEditAble ? 
-            <Button onClick={ () => this.props.handleDelete(profile.rowIndex)}    bsStyle="danger">Delete</Button>
+            <Button onClick={ () => this.onClickDelete(idx ,profile.id)}    bsStyle="danger">Delete</Button>
             :
-            <Button onClick={ () => this.onClickCancelEdit(idx , profile.rowIndex)}    bsStyle="warning">Cancel</Button>
+            <Button onClick={ () => this.onClickCancelEdit(idx , profile.id)}    bsStyle="warning">Cancel</Button>
           }
           </ButtonToolbar>
 
@@ -162,10 +184,10 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    handleEditAble : rowIndex => dispatch(setEditAble(rowIndex)) ,
-    handleUpdate : (profile , rowIndex) => dispatch(updateData( profile, rowIndex)),
-    handleCancel : rowIndex  => dispatch(cancelEdit(rowIndex)),  
-    handleDelete : rowIndex => dispatch(deleteData(rowIndex)) 
+    handleEditAble : id => dispatch(setEditAble(id)) ,
+    handleUpdate : (profile , id) => dispatch(updateData( profile, id)),
+    handleCancel : id  => dispatch(cancelEdit(id)),  
+    handleDelete : id => dispatch(deleteData(id)) 
 
   }
 }

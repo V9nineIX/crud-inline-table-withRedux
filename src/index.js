@@ -9,7 +9,7 @@ import rootReducer from './reducers/formReducer'
 
 
 
-const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : [];
+let persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : [];
 let store = createStore(rootReducer , persistedState);
 
 store.subscribe(()=>{

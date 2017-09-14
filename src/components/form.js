@@ -27,11 +27,33 @@ class Form extends React.Component {
 
         this.handleAdd = this.handleAdd.bind(this);
         this.handleChangeInputText = this.handleChangeInputText.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+        this.handleSave = this.handleSave.bind(this);
 
     }
+
+    resetState(){
+        this.setState(
+            {
+                showForm : false ,
+                name : "",
+                age  : 0 ,
+                nickName : ""
+            });
+    }
+
     handleAdd(){
 
         this.setState({showForm : true})
+    }
+
+    handleCancel(){
+        this.resetState();
+    }
+
+    handleSave(){
+        this.props.onSaveData(this.state);
+        this.resetState();
     }
 
     handleChangeInputText(event){
@@ -85,9 +107,8 @@ class Form extends React.Component {
                     </Col>
                     <Col xs={3} md={3}>
                         <ButtonToolbar>
-                            <Button  onClick={() => this.props.onSaveData(this.state )}  bsStyle="success">Save</Button>
-
-                            <Button bsStyle="warning">Cancel</Button>
+                            <Button  onClick={this.handleSave}  bsStyle="success">Save</Button>
+                            <Button  onClick={this.handleCancel}   bsStyle="warning">Cancel</Button>
                         </ButtonToolbar>
 
                     </Col>
@@ -107,9 +128,12 @@ class Form extends React.Component {
             { this.renderForm() }
             <Row>
                 <Col xs={3} md={3}>
+                 { !this.state.showForm ? 
                     <Button 
                     onClick={this.handleAdd}
                     bsStyle="info">Add</Button>
+                  : null
+                 }
                 </Col>
             </Row>
         </Grid >
