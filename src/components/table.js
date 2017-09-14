@@ -60,8 +60,8 @@ class Table extends React.Component {
 
   renderTBody(profile , idx) {
 
-    if(profile == null) 
-        return null;
+    // if(profile == null) 
+    //     return null;
 
     return (
       <tr key={idx} >

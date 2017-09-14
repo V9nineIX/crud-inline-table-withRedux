@@ -13,8 +13,8 @@ const rootReducer = (state = [], action) => {
             ];
 
         case "EDIT_DATA":
-            return state.map((data, rowIndex) => {
-                if (rowIndex == action.rowIndex) {
+            return state.map((data) => {
+                if (data.rowIndex == action.rowIndex) {
                     return { ...data, isEditAble: true}
                 } else {
                     return data
@@ -23,8 +23,8 @@ const rootReducer = (state = [], action) => {
 
 
         case "UPDATE_DATA":
-            return state.map((data, rowIndex) => {
-                if (rowIndex == action.rowIndex) {
+            return state.map((data) => {
+                if (data.rowIndex == action.rowIndex) {
                     return {
                         ...data,
                         name: action.name,
@@ -39,10 +39,10 @@ const rootReducer = (state = [], action) => {
 
         case "CANCEL_EDIT":
             debugger;
-            return state.map((data, rowIndex) => {
-                if (rowIndex == action.rowIndex) {
+            return state.map((data) => {
+                if (data.rowIndex == action.rowIndex) {
                     return {
-                        ...state[action.rowIndex],
+                        ...data,
                         isEditAble: false
                     }
                 } else {
@@ -52,21 +52,8 @@ const rootReducer = (state = [], action) => {
 
 
         case "DELETE_DATA":
-           debugger;
+        
             return  state.filter( data => data.rowIndex !== action.rowIndex ); 
-
-            // debugger;
-            // if (state.length == 1) {
-            //     return [];
-            // } else {
-            //     return state.map((data, rowIndex) => {
-            //         if (rowIndex != action.rowIndex) {
-            //             return { ...data, rowIndex: rowIndex }
-            //         }
-            //     }
-            //     )
-            // }
-
 
         default:
             return state
