@@ -9,8 +9,12 @@ import rootReducer from './reducers/formReducer'
 
 
 
+const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : [];
+let store = createStore(rootReducer , persistedState);
 
-let store = createStore(rootReducer);
+store.subscribe(()=>{
+    localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+ })
 
 ReactDOM.render( <Provider store={store}><App/></Provider>, document.getElementById('root'));
 registerServiceWorker();

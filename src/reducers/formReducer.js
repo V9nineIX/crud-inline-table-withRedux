@@ -2,6 +2,18 @@ const rootReducer = (state = [], action) => {
 
     switch (action.type) {
         case "ADD_DATA":
+            [
+                ...state, {
+                    name: action.name,
+                    age: action.age,
+                    nickName: action.nickName,
+                    rowIndex: state.length + 1,
+                    isEditAble: false
+                }
+            ];
+
+            
+
             return [
                 ...state, {
                     name: action.name,
