@@ -137,7 +137,7 @@ class Table extends React.Component {
   render() {
 
     return (
-      <TableCom responsive>
+      <TableCom responsive  bordered>
         <thead>
           <tr>
             <th>Name</th>

@@ -6844,4 +6844,14 @@ button.close {
         display: none!important
     }
 }
+
+
+.table-container{
+    height: auto;
+    max-height: 600px;
+    overflow:auto;
+}
+
+
+
 /*# sourceMappingURL=bootstrap.min.css.map */

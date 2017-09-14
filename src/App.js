@@ -11,7 +11,7 @@ class App extends Component {
     return (
  
       <Grid>
-        <Row className="show-grid">
+        <Row className="show-grid table-container"  >
           <Col xs={12} md={12}>
               <Table></Table>
           </Col>

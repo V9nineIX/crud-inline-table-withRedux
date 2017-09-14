@@ -74,7 +74,7 @@ class Form extends React.Component {
                             </FormControl>
                         </FormGroup>
                     </Col>
-                    <Col xs={4} md={4}>
+                    <Col xs={3} md={3}>
                         <FormControl
                             type="text"
                             name="nickName"
@@ -83,7 +83,7 @@ class Form extends React.Component {
                         />
 
                     </Col>
-                    <Col xs={2} md={2}>
+                    <Col xs={3} md={3}>
                         <ButtonToolbar>
                             <Button  onClick={() => this.props.onSaveData(this.state )}  bsStyle="success">Save</Button>
 

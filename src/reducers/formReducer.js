@@ -50,7 +50,6 @@ const rootReducer = (state = [], action) => {
             })
 
         case "CANCEL_EDIT":
-            debugger;
             return state.map((data) => {
                 if (data.rowIndex == action.rowIndex) {
                     return {
