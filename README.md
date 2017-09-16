@@ -4,7 +4,7 @@
 
 ## Feature
      
-     "-Create , update delete cancel-edit in single page."
+     "-Create , update ,delete ,cancel-edit in single page."
      "-Can inline editable in table."
      "-Save data in localstorage."
 
